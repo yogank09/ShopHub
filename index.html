@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopHub - Your Online Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-shopping-bag"></i>
+                <span>ShopHub</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#products" class="nav-link">Products</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-search">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search products...">
+                    <button class="search-clear" id="searchClear" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+            </div>
+            <div class="nav-icons">
+                <button class="shopkeeper-icon" id="shopkeeperBtn" title="Shopkeeper Panel">
+                    <i class="fas fa-store"></i>
+                </button>
+                <button class="user-icon" id="userBtn" title="Account">
+                    <i class="fas fa-user"></i>
+                </button>
+                <button class="cart-icon" id="cartBtn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Welcome to ShopHub</h1>
+            <p>Discover amazing products at unbeatable prices</p>
+            <a href="#products" class="btn btn-primary">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="featured-products-section">
+        <div class="container">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="products-grid" id="featuredProductsGrid">
+                <!-- Featured products will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">About ShopHub</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Your Trusted Online Shopping Destination</h3>
+                    <p>ShopHub is a modern e-commerce platform dedicated to providing you with the best shopping experience. We offer a wide range of products from electronics to clothing, books, and home essentials.</p>
+                    <p>Our mission is to make online shopping convenient, secure, and enjoyable for everyone. With fast delivery, excellent customer service, and competitive prices, we're here to serve you.</p>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-shipping-fast"></i>
+                            <h4>Fast Delivery</h4>
+                            <p>Quick and reliable shipping to your doorstep</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Secure Payment</h4>
+                            <p>Your transactions are safe and protected</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-headset"></i>
+                            <h4>24/7 Support</h4>
+                            <p>Round-the-clock customer service</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-undo"></i>
+                            <h4>Easy Returns</h4>
+                            <p>Hassle-free return policy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <h2 class="section-title">Our Products</h2>
+            <div class="filter-bar">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="electronics">Electronics</button>
+                <button class="filter-btn" data-category="clothing">Clothing</button>
+                <button class="filter-btn" data-category="books">Books</button>
+                <button class="filter-btn" data-category="home">Home & Living</button>
+            </div>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Shopping Cart</h2>
+            <button class="close-cart" id="closeCart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>Total: $<span id="cartTotal">0.00</span></strong>
+            </div>
+            <button class="btn btn-primary btn-checkout" id="checkoutBtn">Checkout</button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Product Modal -->
+    <div class="product-modal" id="productModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body" id="modalBody">
+                <!-- Product details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Page -->
+    <div class="checkout-page" id="checkoutPage">
+        <div class="checkout-container">
+            <button class="close-checkout" id="closeCheckout">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Checkout</h2>
+            <div class="checkout-content">
+                <div class="checkout-form">
+                    <h3>Shipping Information</h3>
+                    <form id="checkoutForm">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip">ZIP Code</label>
+                                <input type="text" id="zip" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" id="expiry" placeholder="MM/YY" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit">Place Order</button>
+                    </form>
+                </div>
+                <div class="checkout-summary">
+                    <h3>Order Summary</h3>
+                    <div id="checkoutItems"></div>
+                    <div class="summary-total">
+                        <strong>Total: $<span id="checkoutTotal">0.00</span></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>123 Shopping Street<br>New York, NY 10001<br>United States</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>support@shophub.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Business Hours</h4>
+                            <p>Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday: 10:00 AM - 4:00 PM<br>Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <h3>Send us a Message</h3>
+                    <div class="form-group">
+                        <label for="contactName">Your Name</label>
+                        <input type="text" id="contactName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Your Email</label>
+                        <input type="email" id="contactEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactSubject">Subject</label>
+                        <input type="text" id="contactSubject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Message</label>
+                        <textarea id="contactMessage" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ShopHub</h3>
+                    <p>Your trusted online shopping destination. Quality products, great prices, excellent service.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to get special offers and updates</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ShopHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login/Register Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-container">
+            <button class="close-auth" id="closeAuth">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="register">Register</button>
+            </div>
+            <div class="auth-content">
+                <form class="auth-form active" id="loginForm">
+                    <h2>Welcome Back</h2>
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox"> Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Login</button>
+                </form>
+                <form class="auth-form" id="registerForm">
+                    <h2>Create Account</h2>
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPhone">Phone Number</label>
+                        <input type="tel" id="registerPhone" placeholder="+1234567890" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirm">Confirm Password</label>
+                        <input type="password" id="registerConfirm" required>
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" required> I agree to the Terms & Conditions
+                    </label>
+                    <button type="submit" class="btn btn-primary btn-full">Send OTP</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopkeeper Login/Register Modal -->
+    <div class="auth-modal" id="shopkeeperAuthModal">
+        <div class="auth-container">
+            <button class="close-auth" id="closeShopkeeperAuth">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="shopkeeper-login">Shopkeeper Login</button>
+                <button class="auth-tab" data-tab="shopkeeper-register">Shopkeeper Sign Up</button>
+            </div>
+            <div class="auth-content">
+                <form class="auth-form active" id="shopkeeperLoginForm">
+                    <h2>Shopkeeper Login</h2>
+                    <div class="form-group">
+                        <label for="shopkeeperLoginEmail">Email</label>
+                        <input type="email" id="shopkeeperLoginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shopkeeperLoginPassword">Password</label>
+                        <input type="password" id="shopkeeperLoginPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Login</button>
+                </form>
+                <form class="auth-form" id="shopkeeperRegisterForm">
+                    <h2>Become a Shopkeeper</h2>
+                    <div class="form-group">
+                        <label for="shopkeeperRegisterName">Shop Name</label>
+                        <input type="text" id="shopkeeperRegisterName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shopkeeperRegisterEmail">Email</label>
+                        <input type="email" id="shopkeeperRegisterEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shopkeeperRegisterPassword">Password</label>
+                        <input type="password" id="shopkeeperRegisterPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shopkeeperRegisterPhone">Phone Number</label>
+                        <input type="tel" id="shopkeeperRegisterPhone" placeholder="+1234567890" required>
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" required> I agree to the Terms & Conditions
+                    </label>
+                    <button type="submit" class="btn btn-primary btn-full">Send OTP</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Account Panel -->
+    <div class="user-panel" id="userPanel">
+        <div class="user-panel-content">
+            <div class="user-header">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h3 id="userName">Guest User</h3>
+                    <p id="userEmail">Not logged in</p>
+                </div>
+                <button class="close-user-panel" id="closeUserPanel">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="user-menu">
+                <button class="user-menu-item active" data-section="dashboard">
+                    <i class="fas fa-home"></i> Dashboard
+                </button>
+                <button class="user-menu-item" data-section="orders">
+                    <i class="fas fa-shopping-bag"></i> My Orders
+                </button>
+                <button class="user-menu-item" data-section="profile">
+                    <i class="fas fa-user-edit"></i> Profile Settings
+                </button>
+                <button class="user-menu-item" data-section="addresses">
+                    <i class="fas fa-map-marker-alt"></i> Addresses
+                </button>
+                <button class="user-menu-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            <div class="user-content">
+                <!-- Dashboard -->
+                <div class="user-section active" id="dashboardSection">
+                    <h2>Dashboard</h2>
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <i class="fas fa-shopping-bag"></i>
+                            <div>
+                                <h3 id="totalOrders">0</h3>
+                                <p>Total Orders</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-dollar-sign"></i>
+                            <div>
+                                <h3>$<span id="totalSpent">0.00</span></h3>
+                                <p>Total Spent</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-box"></i>
+                            <div>
+                                <h3 id="pendingOrders">0</h3>
+                                <p>Pending Orders</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recent-orders">
+                        <h3>Recent Orders</h3>
+                        <div id="recentOrdersList">
+                            <p class="no-orders">No orders yet. Start shopping!</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Orders -->
+                <div class="user-section" id="ordersSection">
+                    <h2>My Orders</h2>
+                    <div id="ordersList">
+                        <p class="no-orders">You haven't placed any orders yet.</p>
+                    </div>
+                </div>
+                <!-- Profile -->
+                <div class="user-section" id="profileSection">
+                    <h2>Profile Settings</h2>
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label for="profileName">Full Name</label>
+                            <input type="text" id="profileName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileEmail">Email</label>
+                            <input type="email" id="profileEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePhone">Phone Number</label>
+                            <input type="tel" id="profilePhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileBirthday">Date of Birth</label>
+                            <input type="date" id="profileBirthday">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+                <!-- Addresses -->
+                <div class="user-section" id="addressesSection">
+                    <h2>Saved Addresses</h2>
+                    <button class="btn btn-primary" id="addAddressBtn">Add New Address</button>
+                    <div id="addressesList">
+                        <p class="no-addresses">No saved addresses yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="user-panel-overlay" id="userPanelOverlay"></div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <div class="success-content">
+            <i class="fas fa-check-circle"></i>
+            <h3>Order Placed Successfully!</h3>
+            <p>Thank you for your purchase. Your order will be delivered soon.</p>
+            <button class="btn btn-primary" id="continueShopping">Continue Shopping</button>
+        </div>
+    </div>
+
+    <!-- Shopkeeper Panel -->
+    <div class="shopkeeper-panel" id="shopkeeperPanel">
+        <div class="shopkeeper-panel-content">
+            <div class="shopkeeper-header">
+                <div class="shopkeeper-avatar">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="shopkeeper-info">
+                    <h3>Shopkeeper Panel</h3>
+                    <p id="shopkeeperEmail">Manage Your Products</p>
+                </div>
+                <button class="close-shopkeeper-panel" id="closeShopkeeperPanel">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="shopkeeper-menu">
+                <button class="shopkeeper-menu-item active" data-section="products">
+                    <i class="fas fa-box"></i> My Products
+                </button>
+                <button class="shopkeeper-menu-item" data-section="add-product">
+                    <i class="fas fa-plus-circle"></i> Add Product
+                </button>
+                <button class="shopkeeper-menu-item" data-section="sales">
+                    <i class="fas fa-chart-line"></i> Sales Report
+                </button>
+                <button class="shopkeeper-menu-item" data-section="bank-account">
+                    <i class="fas fa-university"></i> Bank Account
+                </button>
+                <button class="shopkeeper-menu-item" data-section="earnings">
+                    <i class="fas fa-wallet"></i> Earnings
+                </button>
+            </div>
+            <div class="shopkeeper-content">
+                <!-- My Products Section -->
+                <div class="shopkeeper-section active" id="productsSection">
+                    <div class="section-header">
+                        <h2>My Products</h2>
+                        <button class="btn btn-primary" onclick="switchShopkeeperSection('add-product')">
+                            <i class="fas fa-plus"></i> Add New Product
+                        </button>
+                    </div>
+                    <div class="shopkeeper-products-grid" id="shopkeeperProductsGrid">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Add Product Section -->
+                <div class="shopkeeper-section" id="add-productSection">
+                    <h2 id="addProductTitle">Add New Product</h2>
+                    <form class="product-form" id="productForm">
+                        <div class="form-group">
+                            <label for="productName">Product Name *</label>
+                            <input type="text" id="productName" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="productCategory">Category *</label>
+                                <select id="productCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="clothing">Clothing</option>
+                                    <option value="books">Books</option>
+                                    <option value="home">Home & Living</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">Price ($) *</label>
+                                <input type="number" id="productPrice" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="productImage">Product Image *</label>
+                            <div class="image-input-options">
+                                <button type="button" class="btn btn-camera" id="openCameraBtn">
+                                    <i class="fas fa-camera"></i> Take Photo
+                                </button>
+                                <button type="button" class="btn btn-upload" id="uploadImageBtn">
+                                    <i class="fas fa-upload"></i> Upload Image
+                                </button>
+                                <span class="or-divider">OR</span>
+                                <input type="url" id="productImage" placeholder="Enter image URL">
+                            </div>
+                            <small>Take a photo, upload an image, or enter an image URL</small>
+                            <input type="file" id="imageFileInput" accept="image/*" style="display: none;">
+                            <div class="image-preview" id="imagePreview" style="display: none;">
+                                <img id="previewImg" src="" alt="Preview">
+                                <button type="button" class="remove-image-btn" id="removeImageBtn">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="productDescription">Description *</label>
+                            <textarea id="productDescription" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="productStock">Stock Quantity</label>
+                            <input type="number" id="productStock" min="0" value="0">
+                        </div>
+                        <input type="hidden" id="editingProductId" value="">
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="submitProductBtn">
+                                <i class="fas fa-save"></i> Save Product
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="resetProductForm()">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Sales Report Section -->
+                <div class="shopkeeper-section" id="salesSection">
+                    <h2>Sales Report</h2>
+                    <div class="sales-stats">
+                        <div class="stat-card">
+                            <i class="fas fa-shopping-bag"></i>
+                            <div>
+                                <h3 id="totalProducts">0</h3>
+                                <p>Total Products</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-dollar-sign"></i>
+                            <div>
+                                <h3>$<span id="totalSales">0.00</span></h3>
+                                <p>Total Sales</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-box"></i>
+                            <div>
+                                <h3 id="itemsSold">0</h3>
+                                <p>Items Sold</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sales-table">
+                        <h3>Recent Sales</h3>
+                        <div id="salesList">
+                            <p class="no-sales">No sales yet.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank Account Section -->
+                <div class="shopkeeper-section" id="bank-accountSection">
+                    <h2>Bank Account Details</h2>
+                    <p class="section-description">Add your bank account details to receive payments. 15% commission will be deducted from each sale.</p>
+                    <form class="product-form" id="bankAccountForm">
+                        <div class="form-group">
+                            <label for="accountHolderName">Account Holder Name *</label>
+                            <input type="text" id="accountHolderName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bankName">Bank Name *</label>
+                            <input type="text" id="bankName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accountNumber">Account Number *</label>
+                            <input type="text" id="accountNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ifscCode">IFSC Code / Routing Number *</label>
+                            <input type="text" id="ifscCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accountType">Account Type *</label>
+                            <select id="accountType" required>
+                                <option value="">Select Account Type</option>
+                                <option value="savings">Savings</option>
+                                <option value="current">Current</option>
+                                <option value="checking">Checking</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="branchName">Branch Name</label>
+                            <input type="text" id="branchName">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Bank Details</button>
+                    </form>
+                    <div id="bankAccountDisplay" style="display: none;">
+                        <div class="bank-account-card">
+                            <h3>Current Bank Account</h3>
+                            <div class="bank-details">
+                                <p><strong>Account Holder:</strong> <span id="displayAccountHolder"></span></p>
+                                <p><strong>Bank Name:</strong> <span id="displayBankName"></span></p>
+                                <p><strong>Account Number:</strong> <span id="displayAccountNumber"></span></p>
+                                <p><strong>IFSC Code:</strong> <span id="displayIfscCode"></span></p>
+                                <p><strong>Account Type:</strong> <span id="displayAccountType"></span></p>
+                            </div>
+                            <button class="btn btn-secondary" onclick="editBankAccount()">Edit Bank Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earnings Section -->
+                <div class="shopkeeper-section" id="earningsSection">
+                    <h2>Earnings & Payments</h2>
+                    <div class="earnings-stats">
+                        <div class="stat-card">
+                            <i class="fas fa-dollar-sign"></i>
+                            <div>
+                                <h3>$<span id="totalEarnings">0.00</span></h3>
+                                <p>Total Earnings</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-percent"></i>
+                            <div>
+                                <h3>15%</h3>
+                                <p>Platform Commission</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-wallet"></i>
+                            <div>
+                                <h3>$<span id="availableBalance">0.00</span></h3>
+                                <p>Available Balance</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h3>$<span id="pendingBalance">0.00</span></h3>
+                                <p>Pending Payment</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="earnings-table">
+                        <h3>Payment History</h3>
+                        <div id="paymentHistory">
+                            <p class="no-sales">No payments yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="shopkeeper-panel-overlay" id="shopkeeperPanelOverlay"></div>
+
+    <!-- Camera Modal -->
+    <div class="camera-modal" id="cameraModal">
+        <div class="camera-container">
+            <div class="camera-header">
+                <h3>Take Product Photo</h3>
+                <button class="close-camera" id="closeCameraBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="camera-content">
+                <video id="cameraVideo" autoplay playsinline style="display: none;"></video>
+                <canvas id="cameraCanvas" style="display: none;"></canvas>
+                <div class="camera-preview" id="cameraPreview" style="display: none;">
+                    <img id="capturedImage" alt="Captured image">
+                </div>
+                <div class="camera-placeholder" id="cameraPlaceholder">
+                    <i class="fas fa-camera"></i>
+                    <p>Camera will start when you click "Start Camera"</p>
+                </div>
+            </div>
+            <div class="camera-controls">
+                <button class="btn btn-secondary" id="startCameraBtn">
+                    <i class="fas fa-video"></i> Start Camera
+                </button>
+                <button class="btn btn-primary" id="captureBtn" style="display: none;">
+                    <i class="fas fa-camera"></i> Capture Photo
+                </button>
+                <button class="btn btn-secondary" id="retakeBtn" style="display: none;">
+                    <i class="fas fa-redo"></i> Retake
+                </button>
+                <button class="btn btn-primary" id="usePhotoBtn" style="display: none;">
+                    <i class="fas fa-check"></i> Use This Photo
+                </button>
+                <button class="btn btn-secondary" id="stopCameraBtn" style="display: none;">
+                    <i class="fas fa-stop"></i> Stop Camera
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="camera-overlay" id="cameraOverlay"></div>
+
+    <!-- OTP Verification Modal -->
+    <div class="otp-modal" id="otpModal">
+        <div class="otp-container">
+            <button class="close-otp" id="closeOtpBtn">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="otp-content">
+                <div class="otp-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h2>Verify Phone Number</h2>
+                <p class="otp-description">We've sent a 6-digit OTP to <strong id="otpPhoneNumber"></strong></p>
+                <p class="otp-subtitle">Please enter the OTP to verify your phone number</p>
+                <div class="otp-display" id="otpDisplay" style="display: none;">
+                    <p><strong>Demo OTP:</strong> <span id="displayOTP" style="font-size: 1.2rem; color: var(--primary-color); font-weight: bold;"></span></p>
+                    <p><small>In production, this would be sent via SMS</small></p>
+                </div>
+                
+                <form id="otpForm">
+                    <div class="otp-input-group">
+                        <input type="text" id="otp1" class="otp-input" maxlength="1" pattern="[0-9]" required autofocus>
+                        <input type="text" id="otp2" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" id="otp3" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" id="otp4" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" id="otp5" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" id="otp6" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    </div>
+                    
+                    <div class="otp-timer">
+                        <p>Resend OTP in <span id="otpTimer">60</span> seconds</p>
+                    </div>
+                    
+                    <button type="button" class="btn btn-secondary btn-resend" id="resendOtpBtn" disabled>
+                        <i class="fas fa-redo"></i> Resend OTP
+                    </button>
+                    
+                    <button type="submit" class="btn btn-primary btn-full btn-verify">
+                        <i class="fas fa-check"></i> Verify OTP
+                    </button>
+                </form>
+                
+                <div class="otp-help">
+                    <p><small>Didn't receive the OTP? Check your phone or wait for the timer to resend.</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="otp-overlay" id="otpOverlay"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
